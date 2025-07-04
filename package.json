@@ -1,0 +1,25 @@
+{
+  "name": "minecraftbot",
+  "version": "1.0.0",
+  "description": "AFK Minecraft bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Panchatantra123/MinecraftBot.git"
+  },
+  "keywords": [],
+  "author": "Dinesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Panchatantra123/MinecraftBot/issues"
+  },
+  "homepage": "https://github.com/Panchatantra123/MinecraftBot#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mineflayer": "^4.30.0",
+    "mineflayer-pathfinder": "^2.4.5"
+  }
+}
