@@ -1,18 +1,18 @@
 {
   "bot-account": {
-    "username": "Staff2",
-    "password": "",
-    "type": "offline"
+    "username": "Staff2",              // Bot's username (set your preferred name)
+    "password": "",                    // Leave empty for cracked servers
+    "type": "offline"                  // Use "offline" for cracked servers, or "mojang"/"microsoft" for premium
   },
 
   "server": {
-    "ip": "Friends32.aternos.me",
-    "port": 41494,
-    "version": "1.12.1"
+    "ip": "Friends32.aternos.me",      // Server IP (no port needed if using Aternos domain)
+    "port": 41494,                     // Server port from Aternos
+    "version": "1.12.1"                // Minecraft version your server runs on
   },
-  
+
   "position": {
-    "enabled": false,
+    "enabled": false,                  // Enable to auto-walk to a specific location
     "x": 0,
     "y": 0,
     "z": 0
@@ -20,26 +20,28 @@
 
   "utils": {
     "auto-auth": {
-      "enabled": false,
-      "password": ""
+      "enabled": false,                // Enable if server requires /register or /login
+      "password": "12345678"           // Password used for both register and login
     },
 
     "anti-afk": {
-      "enabled": true,
-      "sneak": true
+      "enabled": true,                 // Keeps the bot from getting kicked
+      "sneak": true                    // Makes the bot sneak while AFKing
     },
 
     "chat-messages": {
-      "enabled": false,
-      "repeat": true,
-      "repeat-delay": 5,
+      "enabled": false,                 // Bot will auto-send chat messages
+      "repeat": true,                  // Repeat messages in a loop
+      "repeat-delay": 15,              // Delay between messages (in seconds)
       "messages": [
-        "GET OUT OF HERE"
+        "I'm watching you 👀",
+        "Don't forget to sleep!",
+        "This server is awesome!"
       ]
     },
 
-    "chat-log": true,
-    "auto-reconnect": true,
-    "auto-recconect-delay": 5000
+    "chat-log": true,                  // Logs all in-game chat to the console
+    "auto-reconnect": true,           // Reconnect bot if disconnected
+    "auto-recconect-delay": 5000      // Delay before reconnecting (in ms)
   }
 }

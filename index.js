@@ -3,6 +3,7 @@ const { pathfinder, Movements, goals } = require('mineflayer-pathfinder');
 const { GoalBlock } = goals;
 const config = require('./settings.json');
 const express = require('express');
+const Vec3 = require('vec3');
 
 const app = express();
 app.get('/', (req, res) => res.send('Bot is running!'));
@@ -12,7 +13,7 @@ function createBot() {
   const bot = mineflayer.createBot({
     username: config["bot-account"].username,
     password: config["bot-account"].password || undefined,
-    auth: config["bot-account"].type, // "microsoft", "mojang", or "offline"
+    auth: config["bot-account"].type,
     host: config.server.ip,
     port: config.server.port,
     version: config.server.version
@@ -63,6 +64,38 @@ function createBot() {
         bot.setControlState('sneak', true);
       }
     }
+
+    // Sleep Command Listener
+    bot.on('chat', async (username, message) => {
+      if (username === bot.username) return;
+
+      if (message.toLowerCase() === 'sleep') {
+        const bed = bot.findBlock({
+          matching: block => bot.isABed(block),
+          maxDistance: 20
+        });
+
+        if (!bed) {
+          bot.chat('No bed nearby!');
+          return;
+        }
+
+        try {
+          bot.chat('Heading to bed...');
+          bot.pathfinder.setMovements(defaultMove);
+          bot.pathfinder.setGoal(new GoalBlock(bed.position.x, bed.position.y, bed.position.z));
+
+          await bot.waitForTicks(20); // wait for 1 second
+          await bot.sleep(bed);
+        } catch (err) {
+          bot.chat('Failed to sleep: ' + err.message);
+        }
+      }
+    });
+
+    bot.on('wake', () => {
+      bot.chat('Good morning!');
+    });
   });
 
   bot.on('chat', (username, message) => {
