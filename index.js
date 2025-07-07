@@ -23,21 +23,21 @@ function createBot() {
 
   bot.once('spawn', () => {
     console.log('[BOT] Spawned into the server.');
-
     const mcData = require('minecraft-data')(bot.version);
     const defaultMove = new Movements(bot, mcData);
 
-    // Auto-Auth
+    const home = config.home || { x: bot.entity.position.x, y: bot.entity.position.y, z: bot.entity.position.z };
+
+    // Auto-auth
     if (config.utils["auto-auth"].enabled) {
       const pass = config.utils["auto-auth"].password;
       setTimeout(() => {
         bot.chat(`/register ${pass} ${pass}`);
         bot.chat(`/login ${pass}`);
       }, 500);
-      console.log('[BOT] Sent /register and /login commands.');
     }
 
-    // Chat Messages
+    // Chat messages
     if (config.utils["chat-messages"].enabled) {
       const msgs = config.utils["chat-messages"].messages;
       if (config.utils["chat-messages"].repeat) {
@@ -51,7 +51,7 @@ function createBot() {
       }
     }
 
-    // Move to position
+    // Go to start position
     if (config.position.enabled) {
       bot.pathfinder.setMovements(defaultMove);
       bot.pathfinder.setGoal(new GoalBlock(config.position.x, config.position.y, config.position.z));
@@ -65,41 +65,56 @@ function createBot() {
       }
     }
 
-    // Sleep Command
+    // Sleep
     bot.on('chat', async (username, message) => {
       if (username === bot.username) return;
 
       if (message.toLowerCase() === 'sleep') {
-        if (!bot.time.isNight) {
-          bot.chat("☀️ It's not night yet!");
-          return;
-        }
-
         const bed = bot.findBlock({
-          matching: block => bot.isABed(block),
-          maxDistance: 20
+          matching: block => mcData.blocks[block.type]?.name?.includes('bed'),
+          maxDistance: 30
         });
 
         if (!bed) {
-          bot.chat('❌ No bed nearby!');
+          bot.chat('No bed nearby!');
           return;
         }
 
         try {
-          bot.chat('🛏️ Heading to bed...');
+          bot.chat('Heading to bed...');
           bot.pathfinder.setMovements(defaultMove);
           bot.pathfinder.setGoal(new GoalBlock(bed.position.x, bed.position.y, bed.position.z));
-
-          await bot.waitForTicks(20);
+          await bot.waitForTicks(40);
           await bot.sleep(bed);
         } catch (err) {
-          bot.chat('❌ Failed to sleep: ' + err.message);
+          bot.chat('Could not sleep: ' + err.message);
         }
       }
     });
 
     bot.on('wake', () => {
-      bot.chat('☀️ Good morning!');
+      bot.chat('Good morning!');
+    });
+
+    // Auto-eat
+    bot.on('physicsTick', () => {
+      if (bot.food < 16) {
+        const foodItem = bot.inventory.items().find(item => item.name.includes('bread') || item.name.includes('apple') || item.name.includes('cooked'));
+        if (foodItem) {
+          bot.equip(foodItem, 'hand').then(() => bot.consume()).catch(err => console.log('[EAT ERROR]', err.message));
+        } else if (!bot._askedForFood) {
+          bot.chat('I need food!');
+          bot._askedForFood = true;
+          setTimeout(() => { bot._askedForFood = false }, 60000); // don't spam
+        }
+      }
+    });
+
+    // Respawn handler
+    bot.on('respawn', () => {
+      bot.chat('I respawned! Returning to home base...');
+      bot.pathfinder.setMovements(defaultMove);
+      bot.pathfinder.setGoal(new GoalBlock(home.x, home.y, home.z));
     });
   });
 
@@ -110,19 +125,19 @@ function createBot() {
   });
 
   bot.on('goal_reached', () => {
-    console.log('[BOT] Reached target location.');
+    console.log('[BOT] Reached goal.');
   });
 
   bot.on('death', () => {
-    console.log('[BOT] Died and respawned.');
+    console.log('[BOT] Died and will respawn...');
   });
 
   bot.on('kicked', reason => {
-    console.log(`[BOT] Kicked from server. Reason: ${reason}`);
+    console.log('[BOT] Kicked from server:', reason);
   });
 
   bot.on('error', err => {
-    console.log(`[ERROR] ${err.message}`);
+    console.log('[ERROR]', err.message);
   });
 
   if (config.utils["auto-reconnect"]) {

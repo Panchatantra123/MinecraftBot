@@ -15,6 +15,11 @@
     "y": 0,
     "z": 0
   },
+"home": {
+  "x": -971,
+  "y": 53,
+  "z": 1504
+},
   "utils": {
     "auto-auth": {
       "enabled": false,
