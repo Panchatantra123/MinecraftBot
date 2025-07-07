@@ -1,47 +1,41 @@
 {
   "bot-account": {
-    "username": "Staff2",              // Bot's username (set your preferred name)
-    "password": "",                    // Leave empty for cracked servers
-    "type": "offline"                  // Use "offline" for cracked servers, or "mojang"/"microsoft" for premium
+    "username": "Staff2",
+    "password": "",
+    "type": "offline"
   },
-
   "server": {
-    "ip": "Friends32.aternos.me",      // Server IP (no port needed if using Aternos domain)
-    "port": 41494,                     // Server port from Aternos
-    "version": "1.12.1"                // Minecraft version your server runs on
+    "ip": "Friends32.aternos.me",
+    "port": 41494,
+    "version": "1.12.1"
   },
-
   "position": {
-    "enabled": false,                  // Enable to auto-walk to a specific location
+    "enabled": false,
     "x": 0,
     "y": 0,
     "z": 0
   },
-
   "utils": {
     "auto-auth": {
-      "enabled": false,                // Enable if server requires /register or /login
-      "password": "12345678"           // Password used for both register and login
+      "enabled": false,
+      "password": "12345678"
     },
-
     "anti-afk": {
-      "enabled": true,                 // Keeps the bot from getting kicked
-      "sneak": true                    // Makes the bot sneak while AFKing
+      "enabled": true,
+      "sneak": true
     },
-
     "chat-messages": {
-      "enabled": false,                 // Bot will auto-send chat messages
-      "repeat": true,                  // Repeat messages in a loop
-      "repeat-delay": 15,              // Delay between messages (in seconds)
+      "enabled": false,
+      "repeat": true,
+      "repeat-delay": 15,
       "messages": [
         "I'm watching you 👀",
         "Don't forget to sleep!",
         "This server is awesome!"
       ]
     },
-
-    "chat-log": true,                  // Logs all in-game chat to the console
-    "auto-reconnect": true,           // Reconnect bot if disconnected
-    "auto-recconect-delay": 5000      // Delay before reconnecting (in ms)
+    "chat-log": true,
+    "auto-reconnect": true,
+    "auto-recconect-delay": 5000
   }
 }
