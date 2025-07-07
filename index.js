@@ -65,36 +65,41 @@ function createBot() {
       }
     }
 
-    // Sleep Command Listener
+    // Sleep Command
     bot.on('chat', async (username, message) => {
       if (username === bot.username) return;
 
       if (message.toLowerCase() === 'sleep') {
+        if (!bot.time.isNight) {
+          bot.chat("☀️ It's not night yet!");
+          return;
+        }
+
         const bed = bot.findBlock({
           matching: block => bot.isABed(block),
           maxDistance: 20
         });
 
         if (!bed) {
-          bot.chat('No bed nearby!');
+          bot.chat('❌ No bed nearby!');
           return;
         }
 
         try {
-          bot.chat('Heading to bed...');
+          bot.chat('🛏️ Heading to bed...');
           bot.pathfinder.setMovements(defaultMove);
           bot.pathfinder.setGoal(new GoalBlock(bed.position.x, bed.position.y, bed.position.z));
 
-          await bot.waitForTicks(20); // wait for 1 second
+          await bot.waitForTicks(20);
           await bot.sleep(bed);
         } catch (err) {
-          bot.chat('Failed to sleep: ' + err.message);
+          bot.chat('❌ Failed to sleep: ' + err.message);
         }
       }
     });
 
     bot.on('wake', () => {
-      bot.chat('Good morning!');
+      bot.chat('☀️ Good morning!');
     });
   });
 

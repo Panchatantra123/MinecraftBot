@@ -18,7 +18,7 @@
   "utils": {
     "auto-auth": {
       "enabled": false,
-      "password": "12345678"
+      "password": ""
     },
     "anti-afk": {
       "enabled": true,
@@ -27,12 +27,8 @@
     "chat-messages": {
       "enabled": false,
       "repeat": true,
-      "repeat-delay": 15,
-      "messages": [
-        "I'm watching you 👀",
-        "Don't forget to sleep!",
-        "This server is awesome!"
-      ]
+      "repeat-delay": 5,
+      "messages": ["GET OUT OF HERE"]
     },
     "chat-log": true,
     "auto-reconnect": true,
