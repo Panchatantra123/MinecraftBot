@@ -1,42 +1,45 @@
 {
   "bot-account": {
-    "username": "Worker1",
+    "username": "Staff",
     "password": "",
     "type": "offline"
   },
+
   "server": {
     "ip": "Friends32.aternos.me",
     "port": 41494,
     "version": "1.12.1"
   },
+  
   "position": {
     "enabled": false,
     "x": 0,
     "y": 0,
     "z": 0
   },
-"home": {
-  "x": -971,
-  "y": 53,
-  "z": 1504
-},
+
   "utils": {
     "auto-auth": {
       "enabled": false,
       "password": ""
     },
+
     "anti-afk": {
       "enabled": true,
       "sneak": true
     },
+
     "chat-messages": {
       "enabled": false,
       "repeat": true,
       "repeat-delay": 5,
-      "messages": ["GET OUT OF HERE"]
+      "messages": [
+        "GET OUT OF HERE"
+      ]
     },
+
     "chat-log": true,
     "auto-reconnect": true,
-    "auto-reconnect-delay": 5000
+    "auto-recconect-delay": 5000
   }
 }
